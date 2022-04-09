@@ -37,7 +37,7 @@ int irsensor1data = digitalRead(irsensor1);
 int irsensor2data = digitalRead(irsensor2);
    
   
-  if(distance>15 && irsensor1data == HIGH && irsensor2data == HIGH){
+  if((distance>15) && (irsensor1data == HIGH) && (irsensor2data == HIGH)){
    movevehicle();
    
   }
