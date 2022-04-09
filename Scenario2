@@ -1,0 +1,74 @@
+int speedpin1 = 10;
+int speedpin2 = 5;
+int input1= 9;
+int input2= 8;
+int input3= 7;
+int input4= 6;
+int motorspeed1= 255;
+int motorspeed2= 255;
+int trigpin= 12;
+int echopin= 13;
+int duration,distance;
+int brake = 0;
+int greenled = 3;
+int redled = 11;
+int irsensor1= 2;
+int irsensor2 = 4;
+
+void setup()
+{ pinMode(irsensor2,INPUT);
+  pinMode(irsensor1,INPUT);
+  pinMode(greenled,OUTPUT);
+  pinMode(redled,OUTPUT);
+  pinMode(speedpin1,OUTPUT);
+  pinMode(speedpin2,OUTPUT);
+  pinMode(input1, OUTPUT);
+  pinMode(input2, OUTPUT);
+  pinMode(input3, OUTPUT);
+  pinMode(input4, OUTPUT);
+  pinMode(trigpin,OUTPUT);
+  pinMode(echopin,INPUT);
+  Serial.begin(9600);
+}
+
+void loop(){
+  obstaclesensor();
+int irsensor1data = digitalRead(irsensor1);
+int irsensor2data = digitalRead(irsensor2);
+   
+  
+  if(distance>15 && irsensor1data == HIGH && irsensor2data == HIGH){
+   movevehicle();
+   
+  }
+  else {
+   digitalWrite(greenled,LOW);
+   digitalWrite(redled,HIGH);
+   digitalWrite(speedpin1,brake);
+   digitalWrite(speedpin2,brake);
+  
+  }
+}
+ 
+void obstaclesensor(){
+ digitalWrite(trigpin,LOW);
+ delayMicroseconds(10);
+ digitalWrite(trigpin,HIGH);
+ delayMicroseconds(10);
+ digitalWrite(trigpin,LOW);
+ duration = pulseIn(echopin,HIGH);
+ distance = (duration*0.33)/20;
+ Serial.println("Distance(cm)=");
+ Serial.println(distance);
+
+}
+ 
+  void movevehicle(){
+  digitalWrite(greenled,HIGH);
+  digitalWrite(input1,LOW);
+  digitalWrite(input2,HIGH);
+  digitalWrite(speedpin1,motorspeed1);
+  digitalWrite(input3,HIGH);
+  digitalWrite(input4,LOW);
+  digitalWrite(speedpin2,motorspeed2);
+}
